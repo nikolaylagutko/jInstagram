@@ -5,9 +5,7 @@ import org.jinstagram.http.Request;
 import org.jinstagram.http.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.IOUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -48,9 +46,9 @@ public final class CompressionUtils {
         return StringUtils.isEmpty(encoding) ? false : encoding.contains(GZIP_VALUE);
     }
 
-    public static InputStream uncompressedStream(Response response) {
+    public static InputStream uncompressedStream(InputStream stream) {
         try {
-            return new GZIPInputStream(response.getStream());
+            return new GZIPInputStream(stream);
         } catch (IOException e) {
             logger.error("Unable to uncompress response", e);
             throw new IllegalStateException("Error while reading response body", e);

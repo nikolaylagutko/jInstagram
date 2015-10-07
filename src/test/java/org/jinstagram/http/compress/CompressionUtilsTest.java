@@ -57,18 +57,14 @@ public class CompressionUtilsTest {
 
     @Test
     public void streamingGzippedBody() throws IOException {
-        Response response = response(gzippedStream(BODY), GZIPPED_RESPONSE_HEADERS);
-
-        InputStream result = CompressionUtils.uncompressedStream(response);
+        InputStream result = CompressionUtils.uncompressedStream(gzippedStream(BODY));
 
         validateStream(BODY, result);
     }
 
     @Test(expected = IllegalStateException.class)
     public void streamingNonGzippedBody() throws IOException {
-        Response response = response(defaultStream(BODY), GZIPPED_RESPONSE_HEADERS);
-
-        CompressionUtils.uncompressedStream(response);
+        CompressionUtils.uncompressedStream(defaultStream(BODY));
     }
 
     private void validateStream(String expected, InputStream actual) {
